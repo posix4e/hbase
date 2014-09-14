@@ -2330,6 +2330,7 @@ public class HBaseTestingUtility extends HBaseCommonTestingUtility {
     conf.setBoolean("mapreduce.map.speculative", false);
     conf.setBoolean("mapreduce.reduce.speculative", false);
     ////
+    conf.setInt("yarn.nodemanager.resource.memory-mb", 256);
 
     // Allow the user to override FS URI for this map-reduce cluster to use.
     mrCluster = new MiniMRCluster(servers,
