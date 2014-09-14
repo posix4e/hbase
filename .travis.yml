@@ -1,0 +1,28 @@
+language: java
+before_install:
+  - mvn -v
+  - ps axu
+install:
+  - mvn clean install -DskipTests
+cache:
+  directories:
+  - $HOME/.m2
+env:
+  - BUILD="test -PskipServerTests"
+  - BUILD="-pl hbase-server test -PrunVerySlowRegionServerTests"
+  - BUILD="-pl hbase-server test -PrunVerySlowMapReduceTests"
+  - BUILD="-pl hbase-server test -PrunMapreduceTests"
+  - BUILD="-pl hbase-server test -PrunRegionServerTests"
+  - BUILD="-pl hbase-server test -PrunMiscTests"
+  - BUILD="-pl hbase-server test -PrunClientTests"
+  - BUILD="-pl hbase-server test -PrunCoprocessorTests"
+  - BUILD="-pl hbase-server test -PrunFilterTests"
+  - BUILD="-pl hbase-server test -PrunMasterTests"
+  - BUILD="-pl hbase-server test -PrunIOTests"
+  - BUILD="-pl hbase-server test -PrunRPCTests"
+  - BUILD="-pl hbase-server test -PrunRestTests"
+  - BUILD="-pl hbase-server test -PrunReplicationTests"
+  - BUILD="-pl hbase-server test -PrunSecurityTests"
+
+script:
+  - set -x; mvn ${BUILD}
