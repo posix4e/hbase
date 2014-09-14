@@ -2350,6 +2350,7 @@ public class HBaseTestingUtility extends HBaseCommonTestingUtility {
     conf.set("mapreduce.jobtracker.address", jobConf.get("mapreduce.jobtracker.address"));
     // this for mrv2 support; mr1 ignores this
     conf.set("mapreduce.framework.name", "yarn");
+
     conf.setBoolean("yarn.is.minicluster", true);
     String rmAddress = jobConf.get("yarn.resourcemanager.address");
     if (rmAddress != null) {
@@ -2364,6 +2365,9 @@ public class HBaseTestingUtility extends HBaseCommonTestingUtility {
     if (schedulerAddress != null) {
       conf.set("yarn.resourcemanager.scheduler.address", schedulerAddress);
     }
+    jobConf.setNumMapTasks(1);
+    jobConf.setNumReduceTasks(1);
+    jobConf.setNumTasksToExecutePerJvm(100);
   }
 
   /**
