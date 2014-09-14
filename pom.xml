@@ -1916,7 +1916,7 @@
         <activeByDefault>false</activeByDefault>
       </activation>
       <properties>
-        <surefire.firstPartForkCount>2</surefire.firstPartForkCount>
+        <surefire.firstPartForkCount>1</surefire.firstPartForkCount>
         <surefire.secondPartForkCount>1</surefire.secondPartForkCount>
         <surefire.skipFirstPart>false</surefire.skipFirstPart>
         <surefire.skipSecondPart>true</surefire.skipSecondPart>

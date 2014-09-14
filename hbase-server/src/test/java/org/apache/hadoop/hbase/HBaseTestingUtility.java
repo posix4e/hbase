@@ -2330,7 +2330,12 @@ public class HBaseTestingUtility extends HBaseCommonTestingUtility {
     conf.setBoolean("mapreduce.map.speculative", false);
     conf.setBoolean("mapreduce.reduce.speculative", false);
     ////
-
+    conf.setInt("yarn.nodemanager.resource.memory-mb", 256);
+    conf.setInt("yarn.scheduler.minimum-allocation-mb", 1);
+    conf.setInt("yarn.nodemanager.resource.cpu-vcores", 1);
+    conf.setInt("mapreduce.jobtracker.taskscheduler.maxrunningtasks.perjob", 1);
+    conf.setInt("mapreduce.tasktracker.map.tasks.maximum", 1);
+    conf.setInt("mapreduce.tasktracker.reduce.tasks.maximum", 1);
     // Allow the user to override FS URI for this map-reduce cluster to use.
     mrCluster = new MiniMRCluster(servers,
       FS_URI != null ? FS_URI : FileSystem.get(conf).getUri().toString(), 1,
@@ -2340,6 +2345,7 @@ public class HBaseTestingUtility extends HBaseCommonTestingUtility {
       jobConf = mrCluster.createJobConf();
     }
 
+    jobConf.setInt("mapreduce.jobtracker.taskscheduler.maxrunningtasks.perjob", 1);
     jobConf.set("mapreduce.cluster.local.dir",
       conf.get("mapreduce.cluster.local.dir")); //Hadoop MiniMR overwrites this while it should not
     LOG.info("Mini mapreduce cluster started");
@@ -2350,6 +2356,7 @@ public class HBaseTestingUtility extends HBaseCommonTestingUtility {
     conf.set("mapreduce.jobtracker.address", jobConf.get("mapreduce.jobtracker.address"));
     // this for mrv2 support; mr1 ignores this
     conf.set("mapreduce.framework.name", "yarn");
+
     conf.setBoolean("yarn.is.minicluster", true);
     String rmAddress = jobConf.get("yarn.resourcemanager.address");
     if (rmAddress != null) {
@@ -2364,6 +2371,9 @@ public class HBaseTestingUtility extends HBaseCommonTestingUtility {
     if (schedulerAddress != null) {
       conf.set("yarn.resourcemanager.scheduler.address", schedulerAddress);
     }
+    jobConf.setNumMapTasks(1);
+    jobConf.setNumReduceTasks(1);
+    jobConf.setNumTasksToExecutePerJvm(100);
   }
 
   /**
