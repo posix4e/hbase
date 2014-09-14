@@ -1,0 +1,12 @@
+dependencies:
+  override:
+    - mvn clean install -DskipTests
+
+machine:
+  java:
+    version: oraclejdk7
+test:
+  override:
+    - set -x ; dev-support/split_across_ci.sh:
+        parallel: true
+        timeout: 1800
