@@ -2332,10 +2332,12 @@ public class HBaseTestingUtility extends HBaseCommonTestingUtility {
     ////
     conf.setInt("yarn.nodemanager.resource.memory-mb", 256);
     conf.setInt("yarn.scheduler.minimum-allocation-mb", 1);
+    conf.setInt("yarn.scheduler.maximum-allocation-mb", 128);
     conf.setInt("yarn.nodemanager.resource.cpu-vcores", 1);
     conf.setInt("mapreduce.jobtracker.taskscheduler.maxrunningtasks.perjob", 1);
     conf.setInt("mapreduce.tasktracker.map.tasks.maximum", 1);
     conf.setInt("mapreduce.tasktracker.reduce.tasks.maximum", 1);
+    conf.setInt("yarn.scheduler.maximum-allocation-vcores", 1);
     // Allow the user to override FS URI for this map-reduce cluster to use.
     mrCluster = new MiniMRCluster(servers,
       FS_URI != null ? FS_URI : FileSystem.get(conf).getUri().toString(), 1,
