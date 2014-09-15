@@ -25,4 +25,4 @@ env:
   - BUILD="-pl hbase-server test -PrunSecurityTests"
 
 script:
-  - set -x; mvn ${BUILD}
+  - set -x; mvn -DreuseForks=true ${BUILD}
