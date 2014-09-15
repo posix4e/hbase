@@ -466,7 +466,7 @@
             <failIfNoTests>false</failIfNoTests>
             <skip>${surefire.skipFirstPart}</skip>
             <forkCount>${surefire.firstPartForkCount}</forkCount>
-            <reuseForks>false</reuseForks>
+            <reuseForks>${reuseForks}</reuseForks>
             <testFailureIgnore>${surefire.testFailureIgnore}</testFailureIgnore>
             <forkedProcessTimeoutInSeconds>${surefire.timeout}</forkedProcessTimeoutInSeconds>
             <!--Allocate some direct memory for direct memory tests-->
@@ -856,6 +856,7 @@
     </plugins>
   </build>
   <properties>
+    <reuseForks>false</reuseForks>
     <tar.name>${project.build.finalName}.tar.gz</tar.name>
     <maven.build.timestamp.format>
       yyyy-MM-dd'T'HH:mm
