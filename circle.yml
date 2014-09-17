@@ -1,6 +1,8 @@
 dependencies:
   override:
     - mvn clean install -DskipTests
+  cache_directories:
+    - ~/.m2
 
 machine:
   java:
