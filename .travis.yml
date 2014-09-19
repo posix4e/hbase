@@ -10,8 +10,6 @@ cache:
 env:
   - BUILD="test -PskipServerTests"
   - BUILD="-pl hbase-server test -PrunVerySlowRegionServerTests"
-  - BUILD="-pl hbase-server test -PrunVerySlowMapReduceTests"
-  - BUILD="-pl hbase-server test -PrunMapreduceTests"
   - BUILD="-pl hbase-server test -PrunRegionServerTests"
   - BUILD="-pl hbase-server test -PrunMiscTests"
   - BUILD="-pl hbase-server test -PrunClientTests"
