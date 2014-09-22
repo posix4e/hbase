@@ -4,7 +4,7 @@ dependencies:
 
 machine:
   java:
-    version: oraclejdk7
+    version: oraclejdk8
 test:
   override:
     - set -x ; dev-support/split_across_ci.sh:
