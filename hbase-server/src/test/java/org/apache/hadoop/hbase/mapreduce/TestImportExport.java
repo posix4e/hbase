@@ -62,6 +62,7 @@ import org.apache.hadoop.hbase.regionserver.wal.HLog;
 import org.apache.hadoop.hbase.regionserver.wal.HLogKey;
 import org.apache.hadoop.hbase.regionserver.wal.WALActionsListener;
 import org.apache.hadoop.hbase.regionserver.wal.WALEdit;
+import org.apache.hadoop.hbase.testclassification.MapReduceTests;
 import org.apache.hadoop.hbase.testclassification.MediumTests;
 import org.apache.hadoop.hbase.testclassification.VerySlowMapReduceTests;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -82,7 +83,7 @@ import org.mockito.stubbing.Answer;
 /**
  * Tests the table import and table export MR job functionality
  */
-@Category({VerySlowMapReduceTests.class, MediumTests.class})
+@Category({MapReduceTests.class, MediumTests.class})
 public class TestImportExport {
   private static HBaseTestingUtility UTIL = new HBaseTestingUtility();
   private static final byte[] ROW1 = Bytes.toBytes("row1");

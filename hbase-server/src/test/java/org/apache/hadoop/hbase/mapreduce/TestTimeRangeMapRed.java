@@ -57,10 +57,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-@Category({VerySlowMapReduceTests.class, LargeTests.class})
+@Category({MapReduceTests.class, LargeTests.class})
 public class TestTimeRangeMapRed {
   private final static Log log = LogFactory.getLog(TestTimeRangeMapRed.class);
-  private static final HBaseTestingUtility UTIL =
+  private static HBaseTestingUtility UTIL =
     new HBaseTestingUtility();
   private Admin admin;
 
@@ -85,12 +85,7 @@ public class TestTimeRangeMapRed {
 
   @BeforeClass
   public static void beforeClass() throws Exception {
-    UTIL.startMiniCluster();
-  }
-
-  @AfterClass
-  public static void afterClass() throws Exception {
-    UTIL.shutdownMiniCluster();
+    UTIL = HBaseTestingUtility.FastMiniCluster.INSTANCE.reinitializeIfNeeded();
   }
 
   @Before
@@ -170,8 +165,6 @@ public class TestTimeRangeMapRed {
 
   private void runTestOnTable()
   throws IOException, InterruptedException, ClassNotFoundException {
-    HBaseTestingUtility.FastMiniCluster.INSTANCE.shutdownIfRunning();
-    UTIL.startMiniMapReduceCluster();
     Job job = null;
     try {
       job = new Job(UTIL.getConfiguration(), "test123");
