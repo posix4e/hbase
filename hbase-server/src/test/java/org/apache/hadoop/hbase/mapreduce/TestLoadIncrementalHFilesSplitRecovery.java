@@ -61,7 +61,7 @@ import org.apache.hadoop.hbase.testclassification.LargeTests;
 import org.apache.hadoop.hbase.testclassification.MapReduceTests;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.Pair;
-import org.junit.AfterClass;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -216,13 +216,7 @@ public class TestLoadIncrementalHFilesSplitRecovery {
 
   @BeforeClass
   public static void setupCluster() throws Exception {
-    util = new HBaseTestingUtility();
-    util.startMiniCluster(1);
-  }
-
-  @AfterClass
-  public static void teardownCluster() throws Exception {
-    util.shutdownMiniCluster();
+    util = HBaseTestingUtility.FastMiniCluster.INSTANCE.reinitializeIfNeeded();
   }
 
   /**

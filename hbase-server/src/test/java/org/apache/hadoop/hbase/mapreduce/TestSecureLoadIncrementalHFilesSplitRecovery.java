@@ -24,6 +24,7 @@ import org.apache.hadoop.hbase.security.UserProvider;
 import org.apache.hadoop.hbase.security.access.AccessControlLists;
 import org.apache.hadoop.hbase.security.access.SecureTestUtil;
 
+import org.apache.hadoop.hbase.testclassification.VerySlowMapReduceTests;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -41,7 +42,7 @@ import org.junit.experimental.categories.Category;
  * invaluable as it verifies the other mechanisms that need to be
  * supported as part of a LoadIncrementalFiles call.
  */
-@Category({MapReduceTests.class, LargeTests.class})
+@Category({VerySlowMapReduceTests.class, LargeTests.class})
 public class TestSecureLoadIncrementalHFilesSplitRecovery extends TestLoadIncrementalHFilesSplitRecovery {
 
   //This "overrides" the parent static method
@@ -49,12 +50,12 @@ public class TestSecureLoadIncrementalHFilesSplitRecovery extends TestLoadIncrem
   @BeforeClass
   public static void setupCluster() throws Exception {
     util = new HBaseTestingUtility();
+    HBaseTestingUtility.FastMiniCluster.INSTANCE.shutdownIfRunning();
     // set the always on security provider
     UserProvider.setUserProviderForTesting(util.getConfiguration(),
       HadoopSecurityEnabledUserProviderForTesting.class);
     // setup configuration
     SecureTestUtil.enableSecurity(util.getConfiguration());
-
     util.startMiniCluster();
 
     // Wait for the ACL table to become available

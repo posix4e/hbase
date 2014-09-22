@@ -19,12 +19,14 @@
  */
 package org.apache.hadoop.hbase.mapreduce;
 
+import org.apache.hadoop.hbase.HBaseTestingUtility;
 import org.apache.hadoop.hbase.testclassification.LargeTests;
 import org.apache.hadoop.hbase.testclassification.MapReduceTests;
 import org.apache.hadoop.hbase.security.UserProvider;
 import org.apache.hadoop.hbase.security.access.AccessControlLists;
 import org.apache.hadoop.hbase.security.access.SecureTestUtil;
 
+import org.apache.hadoop.hbase.testclassification.VerySlowMapReduceTests;
 import org.junit.BeforeClass;
 import org.junit.experimental.categories.Category;
 
@@ -39,11 +41,12 @@ import org.junit.experimental.categories.Category;
  * invaluable as it verifies the other mechanisms that need to be
  * supported as part of a LoadIncrementalFiles call.
  */
-@Category({MapReduceTests.class, LargeTests.class})
+@Category({VerySlowMapReduceTests.class, LargeTests.class})
 public class TestSecureLoadIncrementalHFiles extends  TestLoadIncrementalHFiles{
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
+    HBaseTestingUtility.FastMiniCluster.INSTANCE.shutdownIfRunning();
     // set the always on security provider
     UserProvider.setUserProviderForTesting(util.getConfiguration(),
       HadoopSecurityEnabledUserProviderForTesting.class);

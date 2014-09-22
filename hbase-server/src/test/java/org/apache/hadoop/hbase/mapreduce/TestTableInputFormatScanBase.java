@@ -75,6 +75,7 @@ public abstract class TestTableInputFormatScanBase {
     TEST_UTIL.enableDebug(TableInputFormat.class);
     TEST_UTIL.enableDebug(TableInputFormatBase.class);
     // start mini hbase cluster
+    HBaseTestingUtility.FastMiniCluster.INSTANCE.shutdownIfRunning();
     TEST_UTIL.startMiniCluster(3);
     // create and fill table
     table = TEST_UTIL.createTable(TABLE_NAME, INPUT_FAMILY);

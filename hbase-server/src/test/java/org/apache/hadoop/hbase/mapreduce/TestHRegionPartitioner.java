@@ -30,18 +30,11 @@ import static org.junit.Assert.assertEquals;
 
 @Category({MapReduceTests.class, MediumTests.class})
 public class TestHRegionPartitioner {
-  private static final HBaseTestingUtility UTIL = new HBaseTestingUtility();
+  private static HBaseTestingUtility UTIL = new HBaseTestingUtility();
 
   @BeforeClass
   public static void beforeClass() throws Exception {
-    UTIL.startMiniCluster();
-    UTIL.startMiniMapReduceCluster();
-  }
-
-  @AfterClass
-  public static void afterClass() throws Exception {
-    UTIL.shutdownMiniMapReduceCluster();
-    UTIL.shutdownMiniCluster();
+    UTIL = HBaseTestingUtility.FastMiniCluster.INSTANCE.reinitializeIfNeeded();
   }
 
   /**

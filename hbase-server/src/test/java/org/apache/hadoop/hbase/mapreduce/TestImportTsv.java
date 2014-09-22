@@ -47,6 +47,7 @@ import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.testclassification.LargeTests;
+import org.apache.hadoop.hbase.testclassification.MapReduceTests;
 import org.apache.hadoop.hbase.testclassification.VerySlowMapReduceTests;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.io.Text;
@@ -60,7 +61,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-@Category({VerySlowMapReduceTests.class, LargeTests.class})
+@Category({MapReduceTests.class, LargeTests.class})
 public class TestImportTsv implements Configurable {
 
   protected static final Log LOG = LogFactory.getLog(TestImportTsv.class);
@@ -90,14 +91,7 @@ public class TestImportTsv implements Configurable {
 
   @BeforeClass
   public static void provisionCluster() throws Exception {
-    util.startMiniCluster();
-    util.startMiniMapReduceCluster();
-  }
-
-  @AfterClass
-  public static void releaseCluster() throws Exception {
-    util.shutdownMiniMapReduceCluster();
-    util.shutdownMiniCluster();
+    util = HBaseTestingUtility.FastMiniCluster.INSTANCE.reinitializeIfNeeded();
   }
 
   @Test

@@ -51,8 +51,7 @@ import org.junit.experimental.categories.Category;
  */
 @Category({MapReduceTests.class, LargeTests.class})
 public class TestCopyTable {
-  private static final HBaseTestingUtility TEST_UTIL = new HBaseTestingUtility();
-  private static MiniHBaseCluster cluster;
+  private static HBaseTestingUtility TEST_UTIL = new HBaseTestingUtility();
   private static final byte[] ROW1 = Bytes.toBytes("row1");
   private static final byte[] ROW2 = Bytes.toBytes("row2");
   private static final String FAMILY_A_STRING = "a";
@@ -64,14 +63,7 @@ public class TestCopyTable {
 
   @BeforeClass
   public static void beforeClass() throws Exception {
-    cluster = TEST_UTIL.startMiniCluster(3);
-    TEST_UTIL.startMiniMapReduceCluster();
-  }
-
-  @AfterClass
-  public static void afterClass() throws Exception {
-    TEST_UTIL.shutdownMiniMapReduceCluster();
-    TEST_UTIL.shutdownMiniCluster();
+    TEST_UTIL = HBaseTestingUtility.FastMiniCluster.INSTANCE.reinitializeIfNeeded();
   }
 
   /**
@@ -172,8 +164,8 @@ public class TestCopyTable {
    */
   @Test
   public void testRenameFamily() throws Exception {
-    String sourceTable = "sourceTable";
-    String targetTable = "targetTable";
+    String sourceTable = "testRenameFamilySource";
+    String targetTable = "testRenameFamilyTarget";
 
     byte[][] families = { FAMILY_A, FAMILY_B };
 

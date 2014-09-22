@@ -88,6 +88,7 @@ public class TestExportSnapshot {
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
     setUpBaseConf(TEST_UTIL.getConfiguration());
+    HBaseTestingUtility.FastMiniCluster.INSTANCE.shutdownIfRunning();
     TEST_UTIL.startMiniCluster(3);
     TEST_UTIL.startMiniMapReduceCluster();
   }

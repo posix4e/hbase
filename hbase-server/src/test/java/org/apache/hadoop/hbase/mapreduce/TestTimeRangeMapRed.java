@@ -44,6 +44,7 @@ import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
 import org.apache.hadoop.hbase.testclassification.LargeTests;
 import org.apache.hadoop.hbase.testclassification.MapReduceTests;
+import org.apache.hadoop.hbase.testclassification.VerySlowMapReduceTests;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
@@ -59,7 +60,7 @@ import org.junit.experimental.categories.Category;
 @Category({MapReduceTests.class, LargeTests.class})
 public class TestTimeRangeMapRed {
   private final static Log log = LogFactory.getLog(TestTimeRangeMapRed.class);
-  private static final HBaseTestingUtility UTIL =
+  private static HBaseTestingUtility UTIL =
     new HBaseTestingUtility();
   private Admin admin;
 
@@ -84,12 +85,7 @@ public class TestTimeRangeMapRed {
 
   @BeforeClass
   public static void beforeClass() throws Exception {
-    UTIL.startMiniCluster();
-  }
-
-  @AfterClass
-  public static void afterClass() throws Exception {
-    UTIL.shutdownMiniCluster();
+    UTIL = HBaseTestingUtility.FastMiniCluster.INSTANCE.reinitializeIfNeeded();
   }
 
   @Before
@@ -169,7 +165,6 @@ public class TestTimeRangeMapRed {
 
   private void runTestOnTable()
   throws IOException, InterruptedException, ClassNotFoundException {
-    UTIL.startMiniMapReduceCluster();
     Job job = null;
     try {
       job = new Job(UTIL.getConfiguration(), "test123");

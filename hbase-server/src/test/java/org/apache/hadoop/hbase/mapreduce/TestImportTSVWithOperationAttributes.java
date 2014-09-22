@@ -53,6 +53,7 @@ import org.apache.hadoop.hbase.coprocessor.ObserverContext;
 import org.apache.hadoop.hbase.coprocessor.RegionCoprocessorEnvironment;
 import org.apache.hadoop.hbase.regionserver.HRegion;
 import org.apache.hadoop.hbase.regionserver.wal.WALEdit;
+import org.apache.hadoop.hbase.testclassification.VerySlowMapReduceTests;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
@@ -61,7 +62,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-@Category({MapReduceTests.class, LargeTests.class})
+@Category({VerySlowMapReduceTests.class, LargeTests.class})
 public class TestImportTSVWithOperationAttributes implements Configurable {
 
   protected static final Log LOG = LogFactory.getLog(TestImportTSVWithOperationAttributes.class);
@@ -95,6 +96,7 @@ public class TestImportTSVWithOperationAttributes implements Configurable {
 
   @BeforeClass
   public static void provisionCluster() throws Exception {
+    HBaseTestingUtility.FastMiniCluster.INSTANCE.shutdownIfRunning();
     conf = util.getConfiguration();
     conf.set("hbase.coprocessor.master.classes", OperationAttributesTestController.class.getName());
     conf.set("hbase.coprocessor.region.classes", OperationAttributesTestController.class.getName());

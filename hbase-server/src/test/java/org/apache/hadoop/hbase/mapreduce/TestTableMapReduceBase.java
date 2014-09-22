@@ -40,7 +40,6 @@ import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -52,7 +51,7 @@ import org.junit.Test;
  */
 public abstract class TestTableMapReduceBase {
 
-  protected static final HBaseTestingUtility UTIL = new HBaseTestingUtility();
+  protected static HBaseTestingUtility UTIL = new HBaseTestingUtility();
   protected static final byte[] MULTI_REGION_TABLE_NAME = Bytes.toBytes("mrtest");
   protected static final byte[] INPUT_FAMILY = Bytes.toBytes("contents");
   protected static final byte[] OUTPUT_FAMILY = Bytes.toBytes("text");
@@ -74,18 +73,13 @@ public abstract class TestTableMapReduceBase {
 
   @BeforeClass
   public static void beforeClass() throws Exception {
-    UTIL.startMiniCluster();
+    UTIL = HBaseTestingUtility.FastMiniCluster.INSTANCE.reinitializeIfNeeded();
+
     HTable table =
         UTIL.createTable(MULTI_REGION_TABLE_NAME, new byte[][] { INPUT_FAMILY, OUTPUT_FAMILY });
     UTIL.createMultiRegions(table, INPUT_FAMILY);
     UTIL.loadTable(table, INPUT_FAMILY, false);
-    UTIL.startMiniMapReduceCluster();
-  }
 
-  @AfterClass
-  public static void afterClass() throws Exception {
-    UTIL.shutdownMiniMapReduceCluster();
-    UTIL.shutdownMiniCluster();
   }
 
   /**

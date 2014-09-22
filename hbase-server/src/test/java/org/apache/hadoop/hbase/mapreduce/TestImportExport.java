@@ -62,6 +62,7 @@ import org.apache.hadoop.hbase.regionserver.wal.HLog;
 import org.apache.hadoop.hbase.regionserver.wal.HLogKey;
 import org.apache.hadoop.hbase.regionserver.wal.WALActionsListener;
 import org.apache.hadoop.hbase.regionserver.wal.WALEdit;
+import org.apache.hadoop.hbase.testclassification.MapReduceTests;
 import org.apache.hadoop.hbase.testclassification.MediumTests;
 import org.apache.hadoop.hbase.testclassification.VerySlowMapReduceTests;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -82,9 +83,9 @@ import org.mockito.stubbing.Answer;
 /**
  * Tests the table import and table export MR job functionality
  */
-@Category({VerySlowMapReduceTests.class, MediumTests.class})
+@Category({MapReduceTests.class, MediumTests.class})
 public class TestImportExport {
-  private static final HBaseTestingUtility UTIL = new HBaseTestingUtility();
+  private static HBaseTestingUtility UTIL = new HBaseTestingUtility();
   private static final byte[] ROW1 = Bytes.toBytes("row1");
   private static final byte[] ROW2 = Bytes.toBytes("row2");
   private static final String FAMILYA_STRING = "a";
@@ -100,15 +101,8 @@ public class TestImportExport {
 
   @BeforeClass
   public static void beforeClass() throws Exception {
-    UTIL.startMiniCluster();
-    UTIL.startMiniMapReduceCluster();
+    UTIL = HBaseTestingUtility.FastMiniCluster.INSTANCE.reinitializeIfNeeded();
     FQ_OUTPUT_DIR =  new Path(OUTPUT_DIR).makeQualified(FileSystem.get(UTIL.getConfiguration())).toString();
-  }
-
-  @AfterClass
-  public static void afterClass() throws Exception {
-    UTIL.shutdownMiniMapReduceCluster();
-    UTIL.shutdownMiniCluster();
   }
 
   @Before
@@ -406,9 +400,8 @@ public class TestImportExport {
 
   /**
    * Count the number of keyvalues in the specified table for the given timerange
-   * @param start
-   * @param end
    * @param table
+   * @param filter
    * @return
    * @throws IOException
    */
