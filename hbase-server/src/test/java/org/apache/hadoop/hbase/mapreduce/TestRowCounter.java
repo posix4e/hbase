@@ -52,7 +52,7 @@ import org.junit.experimental.categories.Category;
 @Category({MapReduceTests.class, MediumTests.class})
 public class TestRowCounter {
   final Log LOG = LogFactory.getLog(getClass());
-  private final static HBaseTestingUtility TEST_UTIL = new HBaseTestingUtility();
+  private static HBaseTestingUtility TEST_UTIL = new HBaseTestingUtility();
   private final static String TABLE_NAME = "testRowCounter";
   private final static String COL_FAM = "col_fam";
   private final static String COL1 = "c1";
@@ -66,23 +66,12 @@ public class TestRowCounter {
    */
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
-    TEST_UTIL.startMiniCluster();
-    TEST_UTIL.startMiniMapReduceCluster();
+    TEST_UTIL = HBaseTestingUtility.FastMiniCluster.INSTANCE.reinitializeIfNeeded();
     Table table = TEST_UTIL.createTable(Bytes.toBytes(TABLE_NAME),
         Bytes.toBytes(COL_FAM));
     writeRows(table);
     table.close();
   }
-
-  /**
-   * @throws java.lang.Exception
-   */
-  @AfterClass
-  public static void tearDownAfterClass() throws Exception {
-    TEST_UTIL.shutdownMiniCluster();
-    TEST_UTIL.shutdownMiniMapReduceCluster();
-  }
-
   /**
    * Test a case when no column was specified in command line arguments.
    * 

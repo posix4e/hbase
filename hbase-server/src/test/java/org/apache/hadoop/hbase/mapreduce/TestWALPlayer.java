@@ -66,20 +66,14 @@ import org.mockito.stubbing.Answer;
  */
 @Category({MapReduceTests.class, LargeTests.class})
 public class TestWALPlayer {
-  private static final HBaseTestingUtility TEST_UTIL = new HBaseTestingUtility();
+  private static HBaseTestingUtility TEST_UTIL = new HBaseTestingUtility();
   private static MiniHBaseCluster cluster;
 
   @BeforeClass
   public static void beforeClass() throws Exception {
-    cluster = TEST_UTIL.startMiniCluster();
-    TEST_UTIL.startMiniMapReduceCluster();
+    TEST_UTIL = HBaseTestingUtility.FastMiniCluster.INSTANCE.reinitializeIfNeeded();
   }
 
-  @AfterClass
-  public static void afterClass() throws Exception {
-    TEST_UTIL.shutdownMiniMapReduceCluster();
-    TEST_UTIL.shutdownMiniCluster();
-  }
 
   /**
    * Simple end-to-end test

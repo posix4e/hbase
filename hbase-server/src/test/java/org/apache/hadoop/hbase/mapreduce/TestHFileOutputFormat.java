@@ -85,6 +85,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.RecordWriter;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -98,6 +99,12 @@ import org.mockito.Mockito;
  */
 @Category({VerySlowMapReduceTests.class, LargeTests.class})
 public class TestHFileOutputFormat  {
+
+  @BeforeClass
+  public static void clearOldCluster() throws IOException {
+   HBaseTestingUtility.FastMiniCluster.INSTANCE.shutdownIfRunning();
+  }
+
   private final static int ROWSPERSPLIT = 1024;
 
   private static final byte[][] FAMILIES

@@ -1831,21 +1831,6 @@
       </properties>
     </profile>
     <profile>
-      <id>runMapredTests</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <properties>
-        <surefire.firstPartForkCount>1</surefire.firstPartForkCount>
-        <surefire.secondPartForkCount>1</surefire.secondPartForkCount>
-        <surefire.skipFirstPart>false</surefire.skipFirstPart>
-        <surefire.skipSecondPart>true</surefire.skipSecondPart>
-        <surefire.firstPartGroups>org.apache.hadoop.hbase.testclassification.MapredTests
-        </surefire.firstPartGroups>
-        <surefire.secondPartGroups></surefire.secondPartGroups>
-      </properties>
-    </profile>
-    <profile>
       <id>runMapreduceTests</id>
       <activation>
         <activeByDefault>false</activeByDefault>

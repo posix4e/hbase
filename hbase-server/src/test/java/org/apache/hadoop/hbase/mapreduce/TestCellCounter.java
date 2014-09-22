@@ -45,7 +45,7 @@ import static org.junit.Assert.fail;
 
 @Category({MapReduceTests.class, LargeTests.class})
 public class TestCellCounter {
-  private static final HBaseTestingUtility UTIL = new HBaseTestingUtility();
+  private static HBaseTestingUtility UTIL = new HBaseTestingUtility();
   private static final byte[] ROW1 = Bytes.toBytes("row1");
   private static final byte[] ROW2 = Bytes.toBytes("row2");
   private static final String FAMILY_A_STRING = "a";
@@ -61,16 +61,9 @@ public class TestCellCounter {
 
   @BeforeClass
   public static void beforeClass() throws Exception {
-    UTIL.startMiniCluster();
-    UTIL.startMiniMapReduceCluster();
+    UTIL = HBaseTestingUtility.FastMiniCluster.INSTANCE.reinitializeIfNeeded();
     FQ_OUTPUT_DIR = new Path(OUTPUT_DIR).makeQualified(new LocalFileSystem());
     FileUtil.fullyDelete(new File(OUTPUT_DIR));
-  }
-
-  @AfterClass
-  public static void afterClass() throws Exception {
-    UTIL.shutdownMiniMapReduceCluster();
-    UTIL.shutdownMiniCluster();
   }
 
   /**

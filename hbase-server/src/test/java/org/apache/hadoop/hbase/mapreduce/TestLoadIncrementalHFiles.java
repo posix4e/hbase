@@ -42,6 +42,7 @@ import org.apache.hadoop.hbase.io.hfile.CacheConfig;
 import org.apache.hadoop.hbase.io.hfile.HFile;
 import org.apache.hadoop.hbase.io.hfile.HFileScanner;
 import org.apache.hadoop.hbase.regionserver.BloomType;
+import org.apache.hadoop.hbase.testclassification.VerySlowMapReduceTests;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.HFileTestUtil;
 import org.junit.AfterClass;
@@ -54,7 +55,7 @@ import org.junit.experimental.categories.Category;
  * functionality. These tests run faster than the full MR cluster
  * tests in TestHFileOutputFormat
  */
-@Category({MapReduceTests.class, LargeTests.class})
+@Category({VerySlowMapReduceTests.class, LargeTests.class})
 public class TestLoadIncrementalHFiles {
   private static final byte[] QUALIFIER = Bytes.toBytes("myqual");
   private static final byte[] FAMILY = Bytes.toBytes("myfam");
@@ -72,6 +73,7 @@ public class TestLoadIncrementalHFiles {
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
+    HBaseTestingUtility.FastMiniCluster.INSTANCE.shutdownIfRunning();
     util.getConfiguration().setInt(
       LoadIncrementalHFiles.MAX_FILES_PER_REGION_PER_FAMILY,
       MAX_FILES_PER_REGION_PER_FAMILY);

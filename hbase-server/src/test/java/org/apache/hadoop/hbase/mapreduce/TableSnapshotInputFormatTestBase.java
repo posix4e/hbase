@@ -49,6 +49,7 @@ public abstract class TableSnapshotInputFormatTestBase {
   protected Path rootDir;
 
   public void setupCluster() throws Exception {
+    HBaseTestingUtility.FastMiniCluster.INSTANCE.shutdownIfRunning();
     setupConf(UTIL.getConfiguration());
     UTIL.startMiniCluster(NUM_REGION_SERVERS);
     rootDir = UTIL.getHBaseCluster().getMaster().getMasterFileSystem().getRootDir();

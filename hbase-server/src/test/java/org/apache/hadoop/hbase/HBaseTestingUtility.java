@@ -17,34 +17,6 @@
  */
 package org.apache.hadoop.hbase;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.NavigableSet;
-import java.util.Random;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.impl.Jdk14Logger;
@@ -115,6 +87,34 @@ import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.ZooKeeper.States;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.NavigableSet;
+import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 /**
  * Facility for testing HBase. Replacement for
  * old HBaseTestCase and HBaseClusterTestCase functionality.
@@ -133,7 +133,43 @@ import org.apache.zookeeper.ZooKeeper.States;
 @InterfaceStability.Evolving
 @SuppressWarnings("deprecation")
 public class HBaseTestingUtility extends HBaseCommonTestingUtility {
-   private MiniZooKeeperCluster zkCluster = null;
+
+  public enum FastMiniCluster {
+    INSTANCE;
+
+    HBaseTestingUtility hBaseTestingUtility = new HBaseTestingUtility();
+    boolean running = false;
+    boolean dirty = false;
+    private MiniHBaseCluster miniHBaseCluster;
+    private MiniMRCluster miniMRCluster;
+
+    public HBaseTestingUtility reinitializeIfNeeded() throws Exception {
+      if (dirty) {
+        shutdownIfRunning();
+      }
+
+      if (!running) {
+        startCluster();
+      }
+      return hBaseTestingUtility;
+    }
+
+    private void startCluster() throws Exception {
+      miniHBaseCluster = hBaseTestingUtility.startMiniCluster();
+      miniMRCluster = hBaseTestingUtility.startMiniMapReduceCluster();
+      running = true;
+    }
+
+    public void shutdownIfRunning() throws IOException {
+      if (running) {
+        this.miniHBaseCluster.shutdown();
+        this.miniMRCluster.shutdown();
+        this.running = false;
+      }
+    }
+  }
+
+  private MiniZooKeeperCluster zkCluster = null;
 
   public static final String REGIONS_PER_SERVER_KEY = "hbase.test.regions-per-server";
   /**

@@ -57,7 +57,7 @@ import static org.junit.Assert.assertTrue;
 @Category({MapReduceTests.class, LargeTests.class})
 public class TestMultithreadedTableMapper {
   private static final Log LOG = LogFactory.getLog(TestMultithreadedTableMapper.class);
-  private static final HBaseTestingUtility UTIL =
+  private static HBaseTestingUtility UTIL =
       new HBaseTestingUtility();
   static final byte[] MULTI_REGION_TABLE_NAME = Bytes.toBytes("mrtest");
   static final byte[] INPUT_FAMILY = Bytes.toBytes("contents");
@@ -66,17 +66,10 @@ public class TestMultithreadedTableMapper {
 
   @BeforeClass
   public static void beforeClass() throws Exception {
-    UTIL.startMiniCluster();
     HTable table = UTIL.createTable(MULTI_REGION_TABLE_NAME, new byte[][] {INPUT_FAMILY, OUTPUT_FAMILY});
     UTIL.createMultiRegions(table, INPUT_FAMILY);
     UTIL.loadTable(table, INPUT_FAMILY, false);
-    UTIL.startMiniMapReduceCluster();
-  }
-
-  @AfterClass
-  public static void afterClass() throws Exception {
-    UTIL.shutdownMiniMapReduceCluster();
-    UTIL.shutdownMiniCluster();
+    UTIL = HBaseTestingUtility.FastMiniCluster.INSTANCE.reinitializeIfNeeded();
   }
 
   /**

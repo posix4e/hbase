@@ -59,7 +59,7 @@ import org.junit.experimental.categories.Category;
 public class TestMultiTableInputFormat {
 
   static final Log LOG = LogFactory.getLog(TestMultiTableInputFormat.class);
-  static final HBaseTestingUtility TEST_UTIL = new HBaseTestingUtility();
+  static HBaseTestingUtility TEST_UTIL = new HBaseTestingUtility();
 
   static final String TABLE_NAME = "scantest";
   static final byte[] INPUT_FAMILY = Bytes.toBytes("contents");
@@ -69,10 +69,10 @@ public class TestMultiTableInputFormat {
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
     // switch TIF to log at DEBUG level
+    TEST_UTIL = HBaseTestingUtility.FastMiniCluster.INSTANCE.reinitializeIfNeeded();
     TEST_UTIL.enableDebug(MultiTableInputFormat.class);
     TEST_UTIL.enableDebug(MultiTableInputFormatBase.class);
-    // start mini hbase cluster
-    TEST_UTIL.startMiniCluster(3);
+
     // create and fill table
     for (int i = 0; i < 3; i++) {
       HTable table =
@@ -82,15 +82,9 @@ public class TestMultiTableInputFormat {
       TEST_UTIL.loadTable(table, INPUT_FAMILY, false);
     }
     // start MR cluster
-    TEST_UTIL.startMiniMapReduceCluster();
+
   }
 
-  @AfterClass
-  public static void tearDownAfterClass() throws Exception {
-    TEST_UTIL.shutdownMiniMapReduceCluster();
-    TEST_UTIL.shutdownMiniCluster();
-  }
-  
   @After
   public void tearDown() throws Exception {
     Configuration c = TEST_UTIL.getConfiguration();

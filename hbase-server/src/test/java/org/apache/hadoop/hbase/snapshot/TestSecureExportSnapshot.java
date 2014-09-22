@@ -19,6 +19,7 @@
  */
 package org.apache.hadoop.hbase.snapshot;
 
+import org.apache.hadoop.hbase.HBaseTestingUtility;
 import org.apache.hadoop.hbase.mapreduce.HadoopSecurityEnabledUserProviderForTesting;
 import org.apache.hadoop.hbase.security.UserProvider;
 import org.apache.hadoop.hbase.security.access.AccessControlLists;
@@ -44,7 +45,7 @@ public class TestSecureExportSnapshot extends TestExportSnapshot {
 
     // setup configuration
     SecureTestUtil.enableSecurity(TEST_UTIL.getConfiguration());
-
+    HBaseTestingUtility.FastMiniCluster.INSTANCE.shutdownIfRunning();
     TEST_UTIL.startMiniCluster(3);
     TEST_UTIL.startMiniMapReduceCluster();
 

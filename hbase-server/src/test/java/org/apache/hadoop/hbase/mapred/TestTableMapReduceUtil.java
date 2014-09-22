@@ -83,19 +83,12 @@ public class TestTableMapReduceUtil {
   private static ImmutableMap<String, ImmutableSet<String>> relation = ImmutableMap
       .of(PRESIDENT_PATTERN, presidentsRowKeys, ACTOR_PATTERN, actorsRowKeys);
 
-  private static final HBaseTestingUtility UTIL = new HBaseTestingUtility();
+  private static HBaseTestingUtility UTIL = new HBaseTestingUtility();
 
   @BeforeClass
   public static void beforeClass() throws Exception {
-    UTIL.startMiniCluster();
+    UTIL = HBaseTestingUtility.FastMiniCluster.INSTANCE.reinitializeIfNeeded();
     presidentsTable = createAndFillTable(Bytes.toBytes(TABLE_NAME));
-    UTIL.startMiniMapReduceCluster();
-  }
-
-  @AfterClass
-  public static void afterClass() throws Exception {
-    UTIL.shutdownMiniMapReduceCluster();
-    UTIL.shutdownMiniCluster();
   }
 
   @Before
