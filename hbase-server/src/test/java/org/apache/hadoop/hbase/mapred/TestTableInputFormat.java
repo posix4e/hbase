@@ -61,20 +61,16 @@ public class TestTableInputFormat {
 
   private static final Log LOG = LogFactory.getLog(TestTableInputFormat.class);
 
-  private final static HBaseTestingUtility UTIL = new HBaseTestingUtility();
+  private static HBaseTestingUtility UTIL = new HBaseTestingUtility();
   static final byte[] FAMILY = Bytes.toBytes("family");
 
   private static final byte[][] columns = new byte[][] { FAMILY };
 
   @BeforeClass
   public static void beforeClass() throws Exception {
-    UTIL.startMiniCluster();
+    UTIL = HBaseTestingUtility.FastMiniCluster.INSTANCE.reinitializeIfNeeded();
   }
 
-  @AfterClass
-  public static void afterClass() throws Exception {
-    UTIL.shutdownMiniCluster();
-  }
 
   @Before
   public void before() throws IOException {
