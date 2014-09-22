@@ -72,6 +72,7 @@ public class TestWALPlayer {
   @BeforeClass
   public static void beforeClass() throws Exception {
     TEST_UTIL = HBaseTestingUtility.FastMiniCluster.INSTANCE.reinitializeIfNeeded();
+    cluster = TEST_UTIL.getHBaseCluster();
   }
 
 
