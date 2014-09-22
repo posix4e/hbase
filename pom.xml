@@ -61,6 +61,7 @@
     <module>hbase-prefix-tree</module>
     <module>hbase-assembly</module>
     <module>hbase-testing-util</module>
+    <module>hbase-distributed-hlog</module>
   </modules>
   <scm>
     <connection>scm:git:git://git.apache.org/hbase.git</connection>
