@@ -1842,6 +1842,7 @@
         <surefire.skipFirstPart>false</surefire.skipFirstPart>
         <surefire.skipSecondPart>true</surefire.skipSecondPart>
         <surefire.firstPartGroups>org.apache.hadoop.hbase.testclassification.MapReduceTests
+	<surefire.timeout>0</surefire.timeout>
         </surefire.firstPartGroups>
         <surefire.secondPartGroups></surefire.secondPartGroups>
       </properties>
