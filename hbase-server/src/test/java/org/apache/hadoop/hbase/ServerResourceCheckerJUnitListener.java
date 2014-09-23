@@ -21,6 +21,7 @@ package org.apache.hadoop.hbase;
 
 import org.apache.hadoop.hbase.ResourceChecker.Phase;
 import org.apache.hadoop.hbase.client.HConnectionTestingUtility;
+import org.junit.runner.Result;
 
 /**
  * Monitor the resources. use by the tests All resources in {@link ResourceCheckerJUnitListener}
@@ -38,5 +39,10 @@ public class ServerResourceCheckerJUnitListener extends ResourceCheckerJUnitList
   @Override
   protected void addResourceAnalyzer(ResourceChecker rc) {
     rc.addResourceAnalyzer(new ConnectionCountResourceAnalyzer());
+  }
+
+  @Override
+  public void testRunFinished(Result result) throws Exception {
+    HBaseTestingUtility.FastMiniCluster.INSTANCE.shutdownIfRunning();
   }
 }
