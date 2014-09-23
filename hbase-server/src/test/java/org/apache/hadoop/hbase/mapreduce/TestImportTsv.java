@@ -46,6 +46,7 @@ import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.client.Table;
+import org.apache.hadoop.hbase.testclassification.FlakeyTests;
 import org.apache.hadoop.hbase.testclassification.LargeTests;
 import org.apache.hadoop.hbase.testclassification.MapReduceTests;
 import org.apache.hadoop.hbase.testclassification.VerySlowMapReduceTests;
@@ -61,7 +62,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-@Category({MapReduceTests.class, LargeTests.class})
+/**
+ * Not actually flakey but
+ * Running org.apache.hadoop.hbase.mapreduce.TestImportTsv
+ * Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 356.1 sec - in org.apache.hadoop.hbase.mapreduce.TestImportTsv
+ * On an 8 core. This is too slow for unit tests
+ */
+@Category({FlakeyTests.class, LargeTests.class})
 public class TestImportTsv implements Configurable {
 
   protected static final Log LOG = LogFactory.getLog(TestImportTsv.class);
