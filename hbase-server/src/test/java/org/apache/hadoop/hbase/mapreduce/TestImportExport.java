@@ -198,7 +198,7 @@ public class TestImportExport {
    *
    * @throws Exception
    */
-  @Test
+  @Test(timeout = 100000)
   public void testMetaExport() throws Exception {
     String EXPORT_TABLE = TableName.META_TABLE_NAME.getNameAsString();
     String[] args = new String[] { EXPORT_TABLE, FQ_OUTPUT_DIR, "1", "0", "0" };
@@ -209,7 +209,7 @@ public class TestImportExport {
    * Test import data from 0.94 exported file
    * @throws Exception
    */
-  @Test
+  @Test(timeout = 100000)
   public void testImport94Table() throws Exception {
     URL url = TestImportExport.class.getResource(
         "exportedTableIn94Format");
@@ -240,8 +240,8 @@ public class TestImportExport {
   /**
    * Test export scanner batching
    */
-   @Test
-   public void testExportScannerBatching() throws Exception {
+    @Test(timeout = 100000)
+    public void testExportScannerBatching() throws Exception {
     String BATCH_TABLE = "exportWithBatch";
     HTableDescriptor desc = new HTableDescriptor(TableName.valueOf(BATCH_TABLE));
     desc.addFamily(new HColumnDescriptor(FAMILYA)
@@ -270,7 +270,7 @@ public class TestImportExport {
     t.close();
   }
 
-  @Test
+  @Test(timeout = 100000)
   public void testWithDeletes() throws Exception {
     String EXPORT_TABLE = "exportWithDeletes";
     HTableDescriptor desc = new HTableDescriptor(TableName.valueOf(EXPORT_TABLE));
@@ -338,7 +338,7 @@ public class TestImportExport {
    * Create a simple table, run an Export Job on it, Import with filtering on,  verify counts,
    * attempt with invalid values.
    */
-  @Test
+  @Test(timeout = 100000)
   public void testWithFilter() throws Exception {
     // Create simple table to export
     String EXPORT_TABLE = "exportSimpleCase_ImportWithFilter";
@@ -420,7 +420,7 @@ public class TestImportExport {
   /**
    * test main method. Import should print help and call System.exit
    */
-  @Test
+  @Test(timeout = 100000)
   public void testImportMain() throws Exception {
     PrintStream oldPrintStream = System.err;
     SecurityManager SECURITY_MANAGER = System.getSecurityManager();
@@ -449,7 +449,7 @@ public class TestImportExport {
   /**
    * test main method. Export should print help and call System.exit
    */
-  @Test
+  @Test(timeout = 100000)
   public void testExportMain() throws Exception {
     PrintStream oldPrintStream = System.err;
     SecurityManager SECURITY_MANAGER = System.getSecurityManager();
@@ -484,7 +484,7 @@ public class TestImportExport {
    * Test map method of Importer
    */
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  @Test
+  @Test(timeout = 100000)
   public void testKeyValueImporter() throws Exception {
     KeyValueImporter importer = new KeyValueImporter();
     Configuration configuration = new Configuration();
@@ -519,7 +519,7 @@ public class TestImportExport {
    * Test addFilterAndArguments method of Import This method set couple
    * parameters into Configuration
    */
-  @Test
+  @Test(timeout = 100000)
   public void testAddFilterAndArguments() throws IOException {
     Configuration configuration = new Configuration();
 
@@ -533,7 +533,7 @@ public class TestImportExport {
     assertEquals("param1,param2", configuration.get(Import.FILTER_ARGS_CONF_KEY));
   }
 
-  @Test
+  @Test(timeout = 100000)
   public void testDurability() throws IOException, InterruptedException, ClassNotFoundException {
     // Create an export table.
     String exportTableName = "exporttestDurability";
